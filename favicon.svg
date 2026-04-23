@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Dedo central (grande) -->
+  <ellipse cx="50" cy="28" rx="12" ry="15" fill="#F9B233"/>
+  <!-- Dedo esquerdo externo -->
+  <ellipse cx="24" cy="36" rx="9" ry="12" fill="#F9B233"/>
+  <!-- Dedo direito externo -->
+  <ellipse cx="76" cy="36" rx="9" ry="12" fill="#F9B233"/>
+  <!-- Dedo esquerdo interno -->
+  <ellipse cx="36" cy="26" rx="9.5" ry="12" fill="#F9B233"/>
+  <!-- Dedo direito interno -->
+  <ellipse cx="64" cy="26" rx="9.5" ry="12" fill="#F9B233"/>
+  <!-- Palma com gradiente laranja-amarelo -->
+  <defs>
+    <radialGradient id="palma" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#F07830"/>
+      <stop offset="100%" stop-color="#F9B233"/>
+    </radialGradient>
+    <linearGradient id="onda" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#29B8D4"/>
+      <stop offset="100%" stop-color="#1A9BB8"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="50" cy="58" rx="22" ry="18" fill="url(#palma)"/>
+  <!-- Onda teal -->
+  <path d="M10,68 Q30,55 50,65 Q70,75 90,62 L90,78 Q70,88 50,78 Q30,68 10,80 Z" fill="url(#onda)"/>
+</svg>
