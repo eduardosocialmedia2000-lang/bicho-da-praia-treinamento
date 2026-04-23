@@ -25,6 +25,7 @@
       --danger-light: #FEE8E8;
       --warning: #D69E2E;
       --warning-light: #FEF5DC;
+      --sidebar-w: 260px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -36,7 +37,127 @@
       line-height: 1.7;
     }
 
-    /* HEADER */
+    /* ===== PROGRESS BAR ===== */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 0%;
+      height: 3px;
+      background: #22c55e;
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
+
+    /* ===== SIDEBAR (desktop) ===== */
+    @media (min-width: 1025px) {
+      body { display: flex; }
+
+      #sidebar {
+        width: var(--sidebar-w);
+        min-width: var(--sidebar-w);
+        position: sticky;
+        top: 3px;
+        height: 100vh;
+        overflow-y: auto;
+        background: var(--white);
+        border-right: 1px solid var(--border);
+        padding: 20px 0;
+        flex-shrink: 0;
+        z-index: 100;
+      }
+      #sidebar-inner { padding: 0 14px; }
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 14px 16px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 14px;
+      }
+      .sidebar-logo svg { width: 28px; height: 28px; flex-shrink: 0; }
+      .sidebar-logo span { font-size: 0.78rem; font-weight: 700; color: var(--teal-dark); line-height: 1.2; }
+      .sidebar-search {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 6px 10px;
+        margin-bottom: 12px;
+      }
+      .sidebar-search input {
+        border: none;
+        background: transparent;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.78rem;
+        color: var(--text);
+        width: 100%;
+        outline: none;
+      }
+      .sidebar-search input::placeholder { color: #A0AEC0; }
+      .sidebar-nav { list-style: none; }
+      .sidebar-nav li { margin-bottom: 2px; }
+      .sidebar-nav a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 10px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--text-light);
+        transition: background 0.15s, color 0.15s;
+        position: relative;
+      }
+      .sidebar-nav a:hover { background: var(--teal-light); color: var(--teal-dark); }
+      .sidebar-nav a.active { background: var(--teal-light); color: var(--teal-dark); font-weight: 700; }
+      .sidebar-num {
+        background: var(--border);
+        color: var(--text-light);
+        border-radius: 4px;
+        width: 20px; height: 20px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.65rem; font-weight: 700;
+        flex-shrink: 0;
+        transition: background 0.15s, color 0.15s;
+      }
+      .sidebar-nav a.active .sidebar-num,
+      .sidebar-nav a:hover .sidebar-num { background: var(--teal); color: white; }
+      .sidebar-nav a.done .sidebar-num { background: #22c55e; color: white; }
+      .sidebar-nav a.done .sidebar-num::after { content: '✓'; }
+      .sidebar-print {
+        margin-top: 16px;
+        padding-top: 14px;
+        border-top: 1px solid var(--border);
+      }
+      .btn-print {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        width: 100%;
+        padding: 8px 10px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--text-light);
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
+      }
+      .btn-print:hover { background: var(--teal-light); color: var(--teal-dark); border-color: var(--teal); }
+
+      #main-content { flex: 1; min-width: 0; }
+    }
+
+    @media (max-width: 1024px) {
+      #sidebar { display: none; }
+    }
+
+    /* ===== HEADER ===== */
     .site-header {
       background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 60%, #4ECDE0 100%);
       color: white;
@@ -48,47 +169,82 @@
     .site-header::after {
       content: '';
       position: absolute;
-      bottom: -2px;
-      left: 0;
-      right: 0;
+      bottom: -2px; left: 0; right: 0;
       height: 50px;
       background: var(--bg);
       clip-path: ellipse(55% 100% at 50% 100%);
     }
-    .header-logo {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 16px;
-      display: block;
-    }
+    .header-logo { width: 60px; height: 60px; margin: 0 auto 16px; display: block; }
     .site-header h1 {
       font-size: clamp(1.6rem, 4vw, 2.4rem);
       font-weight: 800;
       letter-spacing: -0.5px;
       margin-bottom: 8px;
     }
-    .site-header p {
-      font-size: 1rem;
-      opacity: 0.9;
-      font-weight: 400;
-    }
+    .site-header p { font-size: 1rem; opacity: 0.9; font-weight: 400; }
     .badge {
       display: inline-block;
       background: rgba(255,255,255,0.2);
       border: 1px solid rgba(255,255,255,0.4);
       border-radius: 20px;
       padding: 4px 14px;
-      font-size: 0.78rem;
-      font-weight: 600;
+      font-size: 0.78rem; font-weight: 600;
       margin-top: 12px;
       letter-spacing: 0.5px;
       text-transform: uppercase;
     }
 
-    /* LAYOUT */
+    /* Print button (mobile/header) */
+    .header-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 16px;
+      position: relative;
+      z-index: 2;
+    }
+    .btn-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.4);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.78rem; font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-header:hover { background: rgba(255,255,255,0.3); }
+
+    /* ===== LAYOUT ===== */
     .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
 
-    /* TABLE OF CONTENTS */
+    /* ===== SEARCH RESULTS HIGHLIGHT ===== */
+    mark.search-hl { background: #fef08a; color: var(--text); border-radius: 2px; padding: 0 1px; }
+
+    /* Search bar (mobile TOC) */
+    .toc-search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 14px;
+      margin-bottom: 16px;
+    }
+    .toc-search input {
+      border: none; background: transparent;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem; color: var(--text);
+      width: 100%; outline: none;
+    }
+    .toc-search input::placeholder { color: #A0AEC0; }
+
+    /* ===== TABLE OF CONTENTS ===== */
     .toc {
       background: var(--white);
       border-radius: 16px;
@@ -99,13 +255,10 @@
       box-shadow: 0 2px 12px rgba(41,184,212,0.07);
     }
     .toc h2 {
-      font-size: 1.1rem;
-      font-weight: 700;
+      font-size: 1.1rem; font-weight: 700;
       color: var(--teal-dark);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px;
     }
     .toc-grid {
       display: grid;
@@ -113,35 +266,31 @@
       gap: 8px;
     }
     .toc-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      display: flex; align-items: center; gap: 10px;
       padding: 10px 14px;
       border-radius: 10px;
       background: var(--teal-light);
       text-decoration: none;
       color: var(--teal-dark);
-      font-size: 0.85rem;
-      font-weight: 500;
+      font-size: 0.85rem; font-weight: 500;
       transition: background 0.2s, transform 0.15s;
     }
     .toc-item:hover { background: var(--teal); color: white; transform: translateX(3px); }
+    .toc-item.hidden { display: none; }
     .toc-num {
-      background: var(--teal);
-      color: white;
+      background: var(--teal); color: white;
       border-radius: 6px;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.72rem;
-      font-weight: 700;
+      width: 24px; height: 24px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 700;
       flex-shrink: 0;
+      position: relative;
     }
     .toc-item:hover .toc-num { background: rgba(255,255,255,0.3); }
+    .toc-item.toc-done .toc-num { background: #22c55e; }
+    .toc-item.toc-done .toc-num::after { content: '✓'; }
 
-    /* MODULE SECTIONS */
+    /* ===== MODULE ===== */
     .module {
       background: var(--white);
       border-radius: 16px;
@@ -150,70 +299,72 @@
       max-width: 900px;
       overflow: hidden;
       box-shadow: 0 2px 12px rgba(41,184,212,0.06);
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
+    .module.completed { border-color: #22c55e; box-shadow: 0 2px 16px rgba(34,197,94,0.15); }
+
     .module-header {
       background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
       color: white;
       padding: 22px 28px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
+      display: flex; align-items: center; gap: 16px;
     }
     .module-header.yellow { background: linear-gradient(135deg, var(--yellow) 0%, var(--orange) 100%); }
     .module-num {
       background: rgba(255,255,255,0.25);
       border-radius: 10px;
-      width: 42px;
-      height: 42px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      font-weight: 800;
+      width: 42px; height: 42px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; font-weight: 800; flex-shrink: 0;
+    }
+    .module-header-text { flex: 1; }
+    .module-header h2 { font-size: 1.1rem; font-weight: 700; line-height: 1.3; }
+    .module-header p { font-size: 0.82rem; opacity: 0.85; margin-top: 2px; }
+    .module-meta {
+      display: flex; align-items: center; gap: 10px;
       flex-shrink: 0;
     }
-    .module-header h2 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      line-height: 1.3;
+    .read-time {
+      font-size: 0.72rem;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 3px 10px;
+      white-space: nowrap;
     }
-    .module-header p {
-      font-size: 0.82rem;
-      opacity: 0.85;
-      margin-top: 2px;
+    .btn-done {
+      display: flex; align-items: center; gap: 5px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
     }
+    .btn-done:hover { background: rgba(255,255,255,0.35); }
+    .btn-done.active { background: #22c55e; border-color: #16a34a; }
+
     .module-body { padding: 28px; }
 
-    /* CONTENT COMPONENTS */
+    /* ===== CONTENT ===== */
     h3 {
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: 1rem; font-weight: 700;
       color: var(--teal-dark);
       margin: 24px 0 12px;
       padding-bottom: 6px;
       border-bottom: 2px solid var(--teal-light);
     }
     h3:first-child { margin-top: 0; }
-
     p { margin-bottom: 12px; color: var(--text-light); font-size: 0.92rem; }
-
-    ul, ol {
-      padding-left: 20px;
-      margin-bottom: 16px;
-    }
-    li {
-      margin-bottom: 8px;
-      color: var(--text-light);
-      font-size: 0.92rem;
-    }
+    ul, ol { padding-left: 20px; margin-bottom: 16px; }
+    li { margin-bottom: 8px; color: var(--text-light); font-size: 0.92rem; }
     li strong { color: var(--text); }
 
-    /* HIGHLIGHT BLOCKS */
     .highlight {
-      border-radius: 12px;
-      padding: 16px 20px;
-      margin: 16px 0;
-      font-size: 0.88rem;
+      border-radius: 12px; padding: 16px 20px; margin: 16px 0; font-size: 0.88rem;
     }
     .highlight.teal { background: var(--teal-light); border-left: 4px solid var(--teal); }
     .highlight.yellow { background: var(--yellow-light); border-left: 4px solid var(--yellow); }
@@ -222,11 +373,8 @@
     .highlight.orange { background: #FFF0E6; border-left: 4px solid var(--orange); }
     .highlight p { margin: 0; color: var(--text); }
     .highlight-title {
-      font-weight: 700;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
+      font-weight: 700; font-size: 0.78rem;
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
     }
     .highlight.teal .highlight-title { color: var(--teal-dark); }
     .highlight.yellow .highlight-title { color: var(--orange); }
@@ -234,185 +382,174 @@
     .highlight.red .highlight-title { color: var(--danger); }
     .highlight.orange .highlight-title { color: var(--orange); }
 
-    /* SCRIPT BOXES */
     .script-box {
-      background: #1A2332;
-      color: #E2EDF0;
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin: 16px 0;
-      font-size: 0.88rem;
-      line-height: 1.8;
-      position: relative;
+      background: #1A2332; color: #E2EDF0;
+      border-radius: 12px; padding: 20px 24px;
+      margin: 16px 0; font-size: 0.88rem; line-height: 1.8; position: relative;
     }
     .script-box::before {
       content: '💬 Script';
-      display: block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--teal);
-      margin-bottom: 10px;
+      display: block; font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      color: var(--teal); margin-bottom: 10px;
     }
     .script-box em { color: var(--yellow); font-style: normal; font-weight: 600; }
     .script-box .speaker { color: var(--teal); font-weight: 600; }
 
-    /* CHECKLIST */
-    .checklist {
-      list-style: none;
-      padding: 0;
-      margin: 16px 0;
-    }
+    .checklist { list-style: none; padding: 0; margin: 16px 0; }
     .checklist li {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: 8px;
-      margin-bottom: 6px;
-      background: var(--bg);
-      font-size: 0.88rem;
-      color: var(--text);
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px 14px; border-radius: 8px; margin-bottom: 6px;
+      background: var(--bg); font-size: 0.88rem; color: var(--text);
     }
     .checklist li::before {
-      content: '☐';
-      font-size: 1.1rem;
-      color: var(--teal);
-      flex-shrink: 0;
-      margin-top: -1px;
+      content: '☐'; font-size: 1.1rem; color: var(--teal);
+      flex-shrink: 0; margin-top: -1px;
     }
     .checklist li.done::before { content: '✓'; color: var(--success); }
 
-    /* ERROR/GOOD GRID */
-    .compare-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin: 16px 0;
-    }
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
     @media (max-width: 600px) { .compare-grid { grid-template-columns: 1fr; } }
-    .compare-card {
-      border-radius: 12px;
-      padding: 16px;
-      font-size: 0.85rem;
-    }
+    .compare-card { border-radius: 12px; padding: 16px; font-size: 0.85rem; }
     .compare-card.bad { background: var(--danger-light); border: 1px solid #FCCACA; }
     .compare-card.good { background: var(--success-light); border: 1px solid #C3E6D5; }
     .compare-card h4 {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 10px;
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;
     }
     .compare-card.bad h4 { color: var(--danger); }
     .compare-card.good h4 { color: var(--success); }
     .compare-card li { font-size: 0.83rem; color: var(--text); margin-bottom: 6px; }
 
-    /* STEP FLOW */
     .steps { margin: 16px 0; }
-    .step {
-      display: flex;
-      gap: 14px;
-      margin-bottom: 16px;
-      align-items: flex-start;
-    }
+    .step { display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start; }
     .step-num {
-      background: var(--teal);
-      color: white;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      font-weight: 700;
-      flex-shrink: 0;
-      margin-top: 2px;
+      background: var(--teal); color: white;
+      border-radius: 50%; width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 700; flex-shrink: 0; margin-top: 2px;
     }
     .step-content h4 { font-size: 0.92rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
     .step-content p { margin: 0; font-size: 0.85rem; }
 
-    /* TABLE */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 16px 0;
-      font-size: 0.85rem;
-    }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.85rem; }
     th {
-      background: var(--teal);
-      color: white;
-      padding: 10px 14px;
-      text-align: left;
-      font-weight: 600;
-      font-size: 0.8rem;
+      background: var(--teal); color: white;
+      padding: 10px 14px; text-align: left;
+      font-weight: 600; font-size: 0.8rem;
     }
-    td {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
-      color: var(--text-light);
-    }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-light); }
     tr:nth-child(even) td { background: var(--teal-light); }
 
-    /* TAGS */
     .tag {
-      display: inline-block;
-      border-radius: 6px;
-      padding: 2px 10px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      margin: 2px;
+      display: inline-block; border-radius: 6px;
+      padding: 2px 10px; font-size: 0.75rem; font-weight: 600; margin: 2px;
     }
     .tag.teal { background: var(--teal-light); color: var(--teal-dark); }
     .tag.yellow { background: var(--yellow-light); color: var(--orange); }
     .tag.green { background: var(--success-light); color: var(--success); }
     .tag.red { background: var(--danger-light); color: var(--danger); }
 
-    /* MANTRA */
     .mantra {
-      text-align: center;
-      padding: 28px;
+      text-align: center; padding: 28px;
       background: linear-gradient(135deg, var(--teal-light), var(--yellow-light));
-      border-radius: 16px;
-      margin: 16px 0;
+      border-radius: 16px; margin: 16px 0;
     }
     .mantra blockquote {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--teal-dark);
-      font-style: italic;
-      line-height: 1.5;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--teal-dark); font-style: italic; line-height: 1.5;
     }
     .mantra cite { display: block; font-size: 0.8rem; color: var(--text-light); margin-top: 8px; font-style: normal; }
 
-    /* FOOTER */
     .site-footer {
-      text-align: center;
-      padding: 40px 20px;
-      font-size: 0.8rem;
-      color: var(--text-light);
-      margin-top: 40px;
+      text-align: center; padding: 40px 20px;
+      font-size: 0.8rem; color: var(--text-light); margin-top: 40px;
     }
     .site-footer strong { color: var(--teal-dark); }
 
-    /* BACK TO TOP */
     .back-top {
-      display: block;
-      text-align: right;
-      font-size: 0.78rem;
-      color: var(--teal);
-      text-decoration: none;
-      font-weight: 600;
-      margin-top: 8px;
-      opacity: 0.7;
+      display: block; text-align: right; font-size: 0.78rem;
+      color: var(--teal); text-decoration: none; font-weight: 600;
+      margin-top: 8px; opacity: 0.7;
     }
     .back-top:hover { opacity: 1; }
+
+    /* ===== PRINT ===== */
+    @media print {
+      #progress-bar, #sidebar, .btn-done, .back-top, .header-actions, .toc-search { display: none !important; }
+      body { display: block; background: white; }
+      #main-content { width: 100%; }
+      .module { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; margin: 16px 0; }
+      .site-header { background: white !important; color: black !important; padding: 20px; }
+      .site-header h1 { color: black; font-size: 1.4rem; }
+      .site-header p, .badge { color: #444; }
+      .module-header { background: #f0f0f0 !important; color: black !important; }
+      .module-header h2, .module-header p { color: black !important; }
+      .module-num { background: #ddd !important; color: black !important; }
+      .script-box { background: #f8f8f8 !important; color: black !important; border: 1px solid #ccc; }
+      .script-box::before { color: #555 !important; }
+      .script-box em { color: #333 !important; }
+      h3 { color: #1A2332 !important; }
+      .toc { display: none; }
+      .btn-header { display: none !important; }
+    }
   </style>
 </head>
 <body>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
+
+<!-- SIDEBAR (desktop only) -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <ellipse cx="50" cy="28" rx="12" ry="15" fill="#F9B233"/>
+      <ellipse cx="24" cy="36" rx="9" ry="12" fill="#F9B233"/>
+      <ellipse cx="76" cy="36" rx="9" ry="12" fill="#F9B233"/>
+      <ellipse cx="36" cy="26" rx="9.5" ry="12" fill="#F9B233"/>
+      <ellipse cx="64" cy="26" rx="9.5" ry="12" fill="#F9B233"/>
+      <defs>
+        <radialGradient id="p2" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stop-color="#F07830"/>
+          <stop offset="100%" stop-color="#F9B233"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="50" cy="58" rx="22" ry="18" fill="url(#p2)"/>
+      <path d="M10,68 Q30,55 50,65 Q70,75 90,62 L90,78 Q70,88 50,78 Q30,68 10,80 Z" fill="#29B8D4"/>
+    </svg>
+    <span>Bicho da Praia<br>Treinamento Comercial</span>
+  </div>
+  <div id="sidebar-inner">
+    <div class="sidebar-search">
+      <span style="color:#A0AEC0;font-size:0.85rem;">🔍</span>
+      <input type="text" id="sidebar-search-input" placeholder="Buscar módulo...">
+    </div>
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li><a href="#m1" data-mod="m1"><span class="sidebar-num">1</span> Abertura e Cultura</a></li>
+      <li><a href="#m2" data-mod="m2"><span class="sidebar-num">2</span> Papel da Recepção</a></li>
+      <li><a href="#m3" data-mod="m3"><span class="sidebar-num">3</span> Fundamentos</a></li>
+      <li><a href="#m4" data-mod="m4"><span class="sidebar-num">4</span> Fluxo de Atendimento</a></li>
+      <li><a href="#m5" data-mod="m5"><span class="sidebar-num">5</span> WhatsApp</a></li>
+      <li><a href="#m6" data-mod="m6"><span class="sidebar-num">6</span> Processo Comercial</a></li>
+      <li><a href="#m7" data-mod="m7"><span class="sidebar-num">7</span> Comunicação Interna</a></li>
+      <li><a href="#m8" data-mod="m8"><span class="sidebar-num">8</span> Gestão de Exames</a></li>
+      <li><a href="#m9" data-mod="m9"><span class="sidebar-num">9</span> Cobrança e Caixa</a></li>
+      <li><a href="#m10" data-mod="m10"><span class="sidebar-num">10</span> Erros Comuns</a></li>
+      <li><a href="#m11" data-mod="m11"><span class="sidebar-num">11</span> Scripts Prontos</a></li>
+      <li><a href="#m12" data-mod="m12"><span class="sidebar-num">12</span> Checklists</a></li>
+      <li><a href="#m13" data-mod="m13"><span class="sidebar-num">13</span> Cultura e Postura</a></li>
+      <li><a href="#m15" data-mod="m15"><span class="sidebar-num">14</span> Gestão Comercial</a></li>
+      <li><a href="#m14" data-mod="m14"><span class="sidebar-num">15</span> Encerramento</a></li>
+    </ul>
+    <div class="sidebar-print">
+      <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div id="main-content">
 
 <!-- HEADER -->
 <div class="site-header" id="topo">
@@ -437,27 +574,35 @@
   </svg>
   <h1>Treinamento Comercial</h1>
   <p>Bicho da Praia — Clínica Veterinária | Meia Praia, Itapema SC</p>
-  <span class="badge">14 Módulos · Equipe de Recepção</span>
+  <span class="badge">15 Módulos · Equipe de Recepção</span>
+  <div class="header-actions">
+    <button class="btn-header" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+  </div>
 </div>
 
 <!-- TABLE OF CONTENTS -->
 <div class="toc container">
   <h2>📋 Índice do Treinamento</h2>
-  <div class="toc-grid">
-    <a href="#m1" class="toc-item"><span class="toc-num">1</span> Abertura e Cultura</a>
-    <a href="#m2" class="toc-item"><span class="toc-num">2</span> Papel da Recepção</a>
-    <a href="#m3" class="toc-item"><span class="toc-num">3</span> Fundamentos do Atendimento</a>
-    <a href="#m4" class="toc-item"><span class="toc-num">4</span> Fluxo de Atendimento</a>
-    <a href="#m5" class="toc-item"><span class="toc-num">5</span> WhatsApp Profissional</a>
-    <a href="#m6" class="toc-item"><span class="toc-num">6</span> Processo Comercial</a>
-    <a href="#m7" class="toc-item"><span class="toc-num">7</span> Comunicação Recepção–Vet</a>
-    <a href="#m8" class="toc-item"><span class="toc-num">8</span> Gestão de Exames</a>
-    <a href="#m9" class="toc-item"><span class="toc-num">9</span> Cobrança e Caixa</a>
-    <a href="#m10" class="toc-item"><span class="toc-num">10</span> Erros Comuns</a>
-    <a href="#m11" class="toc-item"><span class="toc-num">11</span> Scripts Prontos</a>
-    <a href="#m12" class="toc-item"><span class="toc-num">12</span> Checklists Diários</a>
-    <a href="#m13" class="toc-item"><span class="toc-num">13</span> Cultura e Postura</a>
-    <a href="#m14" class="toc-item"><span class="toc-num">14</span> Encerramento</a>
+  <div class="toc-search">
+    <span style="color:#A0AEC0;">🔍</span>
+    <input type="text" id="toc-search-input" placeholder="Buscar por palavra-chave...">
+  </div>
+  <div class="toc-grid" id="toc-grid">
+    <a href="#m1" class="toc-item" data-mod="m1"><span class="toc-num">1</span> Abertura e Cultura</a>
+    <a href="#m2" class="toc-item" data-mod="m2"><span class="toc-num">2</span> Papel da Recepção</a>
+    <a href="#m3" class="toc-item" data-mod="m3"><span class="toc-num">3</span> Fundamentos do Atendimento</a>
+    <a href="#m4" class="toc-item" data-mod="m4"><span class="toc-num">4</span> Fluxo de Atendimento</a>
+    <a href="#m5" class="toc-item" data-mod="m5"><span class="toc-num">5</span> WhatsApp Profissional</a>
+    <a href="#m6" class="toc-item" data-mod="m6"><span class="toc-num">6</span> Processo Comercial</a>
+    <a href="#m7" class="toc-item" data-mod="m7"><span class="toc-num">7</span> Comunicação Recepção–Vet</a>
+    <a href="#m8" class="toc-item" data-mod="m8"><span class="toc-num">8</span> Gestão de Exames</a>
+    <a href="#m9" class="toc-item" data-mod="m9"><span class="toc-num">9</span> Cobrança e Caixa</a>
+    <a href="#m10" class="toc-item" data-mod="m10"><span class="toc-num">10</span> Erros Comuns</a>
+    <a href="#m11" class="toc-item" data-mod="m11"><span class="toc-num">11</span> Scripts Prontos</a>
+    <a href="#m12" class="toc-item" data-mod="m12"><span class="toc-num">12</span> Checklists Diários</a>
+    <a href="#m13" class="toc-item" data-mod="m13"><span class="toc-num">13</span> Cultura e Postura</a>
+    <a href="#m15" class="toc-item" data-mod="m15"><span class="toc-num">14</span> Gestão Comercial</a>
+    <a href="#m14" class="toc-item" data-mod="m14"><span class="toc-num">15</span> Encerramento</a>
   </div>
 </div>
 
@@ -465,9 +610,13 @@
 <div class="module container" id="m1">
   <div class="module-header yellow">
     <div class="module-num">1</div>
-    <div>
+    <div class="module-header-text">
       <h2>Abertura e Cultura da Bicho da Praia</h2>
       <p>Quem somos, o que defendemos e por que isso importa para o atendimento</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 3 min</span>
+      <button class="btn-done" data-mod="m1">✓ Concluído</button>
     </div>
   </div>
   <div class="module-body">
@@ -475,11 +624,9 @@
       <blockquote>"A recepção não é onde o cliente espera. É onde a experiência começa."</blockquote>
       <cite>— Cultura Bicho da Praia</cite>
     </div>
-
     <h3>Sobre a Clínica</h3>
     <p>A Bicho da Praia é uma clínica veterinária localizada em Meia Praia, Itapema (SC). Somos referência na região para tutores que buscam atendimento de qualidade, cuidado humanizado e transparência em cada etapa do tratamento de seus animais.</p>
     <p>Nosso diferencial não é só técnico — é a <strong>experiência completa que entregamos</strong>: do primeiro contato pelo WhatsApp até a saída do paciente com o tutor satisfeito e bem informado.</p>
-
     <h3>Nossos Valores</h3>
     <ul>
       <li><strong>Cuidado real:</strong> cada animal que entra aqui é tratado como se fosse nosso.</li>
@@ -488,15 +635,12 @@
       <li><strong>Proatividade:</strong> antecipamos dúvidas, ligamos antes de ser cobrados, entregamos antes do prometido.</li>
       <li><strong>Respeito ao animal e ao tutor:</strong> zero julgamento, 100% acolhimento.</li>
     </ul>
-
     <h3>A Equipe</h3>
     <p>Hoje a clínica funciona com a Dra. Mariana à frente do atendimento clínico, e a equipe de recepção responsável por toda a gestão do fluxo — agendamentos, WhatsApp, exames, cobrança e relacionamento com o tutor.</p>
-
     <div class="highlight teal">
       <div class="highlight-title">Por que este treinamento existe</div>
       <p>Cada tutora que passa pela nossa porta já está preocupada com seu animal. Nossa função é transformar essa ansiedade em confiança. Para isso, precisamos ser previsíveis, ágeis e humanos — e isso se aprende com processo, prática e alinhamento.</p>
     </div>
-
     <a href="#topo" class="back-top">↑ Voltar ao topo</a>
   </div>
 </div>
@@ -505,9 +649,13 @@
 <div class="module container" id="m2">
   <div class="module-header">
     <div class="module-num">2</div>
-    <div>
+    <div class="module-header-text">
       <h2>O Papel da Recepção</h2>
       <p>Por que a recepção define o sucesso da clínica</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 3 min</span>
+      <button class="btn-done" data-mod="m2">✓ Concluído</button>
     </div>
   </div>
   <div class="module-body">
@@ -521,37 +669,16 @@
       <li>Resolver problemas de forma proativa, sem precisar que o tutor peça</li>
       <li>Cuidar da parte financeira (cobranças, recibos, NF)</li>
     </ul>
-
     <h3>As 3 Funções da Recepção</h3>
     <div class="steps">
-      <div class="step">
-        <div class="step-num">A</div>
-        <div class="step-content">
-          <h4>Comercial</h4>
-          <p>Converter dúvidas em consultas. Explicar valor, não preço. Responder rápido o suficiente para o tutor não buscar outra clínica.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">B</div>
-        <div class="step-content">
-          <h4>Operacional</h4>
-          <p>Garantir que o fluxo funcione: agendamentos corretos, exames solicitados, resultados entregues, fichas atualizadas, caixa fechado.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">C</div>
-        <div class="step-content">
-          <h4>Relacional</h4>
-          <p>Ser o ponto de confiança do tutor. Lembrar o nome do pet, perguntar como foi o retorno, criar um vínculo real com quem frequenta a clínica.</p>
-        </div>
-      </div>
+      <div class="step"><div class="step-num">A</div><div class="step-content"><h4>Comercial</h4><p>Converter dúvidas em consultas. Explicar valor, não preço. Responder rápido o suficiente para o tutor não buscar outra clínica.</p></div></div>
+      <div class="step"><div class="step-num">B</div><div class="step-content"><h4>Operacional</h4><p>Garantir que o fluxo funcione: agendamentos corretos, exames solicitados, resultados entregues, fichas atualizadas, caixa fechado.</p></div></div>
+      <div class="step"><div class="step-num">C</div><div class="step-content"><h4>Relacional</h4><p>Ser o ponto de confiança do tutor. Lembrar o nome do pet, perguntar como foi o retorno, criar um vínculo real com quem frequenta a clínica.</p></div></div>
     </div>
-
     <div class="highlight yellow">
       <div class="highlight-title">Regra de Ouro</div>
       <p><strong>Se algo não foi resolvido, a responsabilidade é da recepção — não importa de quem foi a falha.</strong> Não é sobre culpa: é sobre garantir que o tutor nunca fique sem resposta.</p>
     </div>
-
     <a href="#topo" class="back-top">↑ Voltar ao topo</a>
   </div>
 </div>
@@ -560,51 +687,24 @@
 <div class="module container" id="m3">
   <div class="module-header yellow">
     <div class="module-num">3</div>
-    <div>
+    <div class="module-header-text">
       <h2>Fundamentos do Atendimento de Qualidade</h2>
       <p>O que separa um atendimento bom de um atendimento excelente</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 4 min</span>
+      <button class="btn-done" data-mod="m3">✓ Concluído</button>
     </div>
   </div>
   <div class="module-body">
     <h3>Os 5 Pilares</h3>
     <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>Agilidade</h4>
-          <p>Responder em até 5 minutos no WhatsApp. Nunca deixar o tutor esperando no balcão sem se apresentar e dar uma previsão de tempo.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h4>Clareza</h4>
-          <p>Usar linguagem simples. Evitar termos técnicos sem explicação. Confirmar que o tutor entendeu o que foi dito.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>Empatia</h4>
-          <p>Entender que o animal é família. Nunca parecer impaciente ou indiferente — mesmo no dia mais movimentado.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-content">
-          <h4>Consistência</h4>
-          <p>Padrão igual para todos os tutores: não importa se é o cliente de sempre ou alguém que veio pela primeira vez. O nível de cuidado não muda.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <div class="step-content">
-          <h4>Postura</h4>
-          <p>Tom de voz calmo. Sorriso (mesmo no telefone — a pessoa sente). Nunca discutir ou demonstrar irritação com o tutor.</p>
-        </div>
-      </div>
+      <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Agilidade</h4><p>Responder em até 5 minutos no WhatsApp. Nunca deixar o tutor esperando no balcão sem se apresentar e dar uma previsão de tempo.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Clareza</h4><p>Usar linguagem simples. Evitar termos técnicos sem explicação. Confirmar que o tutor entendeu o que foi dito.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Empatia</h4><p>Entender que o animal é família. Nunca parecer impaciente ou indiferente — mesmo no dia mais movimentado.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Consistência</h4><p>Padrão igual para todos os tutores: não importa se é o cliente de sempre ou alguém que veio pela primeira vez.</p></div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Postura</h4><p>Tom de voz calmo. Sorriso (mesmo no telefone — a pessoa sente). Nunca discutir ou demonstrar irritação com o tutor.</p></div></div>
     </div>
-
     <h3>Tom de Voz e Linguagem</h3>
     <div class="compare-grid">
       <div class="compare-card bad">
@@ -630,7 +730,6 @@
         </ul>
       </div>
     </div>
-
     <h3>Atendimento Presencial</h3>
     <ul>
       <li>Levante os olhos do computador quando alguém entrar. Cumprimente antes de qualquer coisa.</li>
@@ -639,7 +738,6 @@
       <li>Ofereça água para o tutor em esperas longas.</li>
       <li>Nunca deixe o tutor sem saber o que está acontecendo com o animal.</li>
     </ul>
-
     <a href="#topo" class="back-top">↑ Voltar ao topo</a>
   </div>
 </div>
@@ -648,64 +746,30 @@
 <div class="module container" id="m4">
   <div class="module-header">
     <div class="module-num">4</div>
-    <div>
+    <div class="module-header-text">
       <h2>Fluxo de Atendimento — Do Contato ao Encerramento</h2>
       <p>Passo a passo do processo completo</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 4 min</span>
+      <button class="btn-done" data-mod="m4">✓ Concluído</button>
     </div>
   </div>
   <div class="module-body">
     <h3>Visão Geral do Fluxo</h3>
     <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>Primeiro Contato (WhatsApp ou telefone)</h4>
-          <p>Saudar, identificar a necessidade, oferecer agendamento ou orientar sobre urgências.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h4>Agendamento</h4>
-          <p>Confirmar nome do tutor, nome e espécie do animal, motivo da consulta, data e horário. Sempre confirmar via WhatsApp após agendar.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>Recepção na Chegada</h4>
-          <p>Cumprimentar pelo nome (do animal e do tutor), confirmar o horário, preencher ou atualizar a ficha, indicar onde aguardar.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-content">
-          <h4>Durante o Atendimento</h4>
-          <p>Manter o tutor informado sobre tempo de espera. Se houver atraso, comunicar proativamente.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <div class="step-content">
-          <h4>Saída e Fechamento</h4>
-          <p>Confirmar orientações da Dra. Mariana com o tutor, processar pagamento, emitir recibo ou NF, perguntar se há dúvidas.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">6</div>
-        <div class="step-content">
-          <h4>Pós-Atendimento</h4>
-          <p>Registrar resultado de exames quando chegar. Avisar o tutor assim que disponível. Agendar retorno se indicado.</p>
-        </div>
-      </div>
+      <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Primeiro Contato (WhatsApp ou telefone)</h4><p>Saudar, identificar a necessidade, oferecer agendamento ou orientar sobre urgências.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Agendamento</h4><p>Confirmar nome do tutor, nome e espécie do animal, motivo da consulta, data e horário. Sempre confirmar via WhatsApp após agendar.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Recepção na Chegada</h4><p>Cumprimentar pelo nome (do animal e do tutor), confirmar o horário, preencher ou atualizar a ficha, indicar onde aguardar.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Durante o Atendimento</h4><p>Manter o tutor informado sobre tempo de espera. Se houver atraso, comunicar proativamente.</p></div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Saída e Fechamento</h4><p>Confirmar orientações da Dra. Mariana com o tutor, processar pagamento, emitir recibo ou NF, perguntar se há dúvidas.</p></div></div>
+      <div class="step"><div class="step-num">6</div><div class="step-content"><h4>Pós-Atendimento</h4><p>Registrar resultado de exames quando chegar. Avisar o tutor assim que disponível. Agendar retorno se indicado.</p></div></div>
     </div>
-
     <h3>Gerenciamento de Atrasos</h3>
     <div class="highlight orange">
       <div class="highlight-title">Protocolo de Atraso</div>
       <p>Se a consulta estiver atrasando mais de 15 minutos: <strong>avise o tutor proativamente</strong> antes de ele perguntar. Use: <em>"Fulano, a Dra. Mariana ainda está atendendo mas está quase. Deve ser uns [X] minutinhos. Quer um cafezinho enquanto aguarda?"</em></p>
     </div>
-
     <h3>Cancelamentos e Remarcações</h3>
     <ul>
       <li>Ao receber um cancelamento, agradeça a antecedência e ofereça remarcação imediata.</li>
@@ -713,7 +777,6 @@
       <li>Cancelamento com menos de 2h: registrar no histórico para controle interno.</li>
       <li>No-show (não compareceu): aguardar 15 min, ligar para confirmar, registrar se não atendeu.</li>
     </ul>
-
     <a href="#topo" class="back-top">↑ Voltar ao topo</a>
   </div>
 </div>
@@ -722,15 +785,18 @@
 <div class="module container" id="m5">
   <div class="module-header yellow">
     <div class="module-num">5</div>
-    <div>
+    <div class="module-header-text">
       <h2>WhatsApp Profissional</h2>
       <p>Como usar o canal principal da clínica com qualidade e agilidade</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 5 min</span>
+      <button class="btn-done" data-mod="m5">✓ Concluído</button>
     </div>
   </div>
   <div class="module-body">
     <h3>O WhatsApp como Canal Comercial</h3>
     <p>O WhatsApp é a porta de entrada da maioria dos novos clientes. Uma resposta demorada ou mal redigida pode custar uma consulta — ou um cliente para sempre. Por isso, tratamos o WhatsApp como um canal comercial prioritário.</p>
-
     <h3>Padrões de Tempo de Resposta</h3>
     <table>
       <tr><th>Situação</th><th>Tempo Máximo</th><th>Responsável</th></tr>
@@ -740,7 +806,6 @@
       <tr><td>Dúvida pós-consulta</td><td>15 minutos</td><td>Gabi</td></tr>
       <tr><td>Urgência / emergência</td><td>Imediato</td><td>Toda equipe</td></tr>
     </table>
-
     <h3>Formatação das Mensagens</h3>
     <ul>
       <li><strong>Nunca</strong> mande mensagem em caixa alta (parece que está gritando).</li>
@@ -750,35 +815,16 @@
       <li>Nunca use abreviações: "vc", "tb", "pq" passam imagem amadora.</li>
       <li>Sempre feche a mensagem com uma ação clara: "Posso agendar para você?" ou "Tem alguma dúvida?"</li>
     </ul>
-
     <h3>Scripts de WhatsApp</h3>
-
-    <div class="script-box">
-      <span class="speaker">Primeiro contato (cliente novo):</span><br><br>
-      "Olá! Tudo bem? 🐾 Aqui é a <em>[nome]</em>, da Bicho da Praia. Como posso te ajudar hoje?"
-    </div>
-
-    <div class="script-box">
-      <span class="speaker">Confirmação de agendamento:</span><br><br>
-      "Olá, <em>[nome do tutor]</em>! Passando para confirmar a consulta de <em>[nome do animal]</em> amanhã, <em>[dia]</em> às <em>[horário]</em>. Tudo certo por aí?"
-    </div>
-
-    <div class="script-box">
-      <span class="speaker">Resposta a dúvida sobre preço:</span><br><br>
-      "Oi! A consulta é <em>[valor]</em>. Ela já inclui o atendimento completo com a Dra. Mariana, exame físico e orientações. Quer que eu verifique um horário disponível para você?"
-    </div>
-
-    <div class="script-box">
-      <span class="speaker">Aviso de resultado de exame:</span><br><br>
-      "Oi, <em>[nome]</em>! O resultado do exame de <em>[nome do animal]</em> ficou pronto. A Dra. Mariana já verificou e <em>[informar se há orientação / se precisa retornar]</em>. Posso te mandar as informações aqui ou prefere vir buscar?"
-    </div>
-
+    <div class="script-box"><span class="speaker">Primeiro contato (cliente novo):</span><br><br>"Olá! Tudo bem? 🐾 Aqui é a <em>[nome]</em>, da Bicho da Praia. Como posso te ajudar hoje?"</div>
+    <div class="script-box"><span class="speaker">Confirmação de agendamento:</span><br><br>"Olá, <em>[nome do tutor]</em>! Passando para confirmar a consulta de <em>[nome do animal]</em> amanhã, <em>[dia]</em> às <em>[horário]</em>. Tudo certo por aí?"</div>
+    <div class="script-box"><span class="speaker">Resposta a dúvida sobre preço:</span><br><br>"Oi! A consulta é <em>[valor]</em>. Ela já inclui o atendimento completo com a Dra. Mariana, exame físico e orientações. Quer que eu verifique um horário disponível para você?"</div>
+    <div class="script-box"><span class="speaker">Aviso de resultado de exame:</span><br><br>"Oi, <em>[nome]</em>! O resultado do exame de <em>[nome do animal]</em> ficou pronto. A Dra. Mariana já verificou e <em>[informar se há orientação / se precisa retornar]</em>. Posso te mandar as informações aqui ou prefere vir buscar?"</div>
     <h3>O que Nunca Fazer no WhatsApp</h3>
     <div class="highlight red">
       <div class="highlight-title">Proibido</div>
       <p>Jamais diagnosticar ou dar orientações clínicas pelo WhatsApp sem validação da Dra. Mariana. Nunca falar "provavelmente é isso" ou "acho que é assim". Qualquer dúvida clínica → encaminhar para a veterinária responder ou orientar o tutor a agendar consulta.</p>
     </div>
-
     <a href="#topo" class="back-top">↑ Voltar ao topo</a>
   </div>
 </div>
@@ -787,9 +833,13 @@
 <div class="module container" id="m6">
   <div class="module-header">
     <div class="module-num">6</div>
-    <div>
+    <div class="module-header-text">
       <h2>Processo Comercial — Converter Contato em Consulta</h2>
       <p>Técnicas práticas para aumentar a taxa de agendamento</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 5 min</span>
+      <button class="btn-done" data-mod="m6">✓ Concluído</button>
     </div>
   </div>
   <div class="module-body">
@@ -801,10 +851,8 @@
       <li><strong>Preocupado:</strong> "Meu pet está assim..." → precisa de acolhimento primeiro</li>
     </ul>
     <p>Identificar em qual momento ele está define como você vai conduzir a conversa.</p>
-
     <h3>A Técnica do Próximo Passo</h3>
     <p>Nunca encerre uma conversa sem propor uma ação concreta. A maioria das consultas não agendadas é perda por omissão — a recepção respondeu a dúvida mas não deu o próximo passo.</p>
-
     <div class="compare-grid">
       <div class="compare-card bad">
         <h4>❌ Conversa que não converte</h4>
@@ -825,7 +873,6 @@
         </ul>
       </div>
     </div>
-
     <h3>Como Lidar com Objeções</h3>
     <table>
       <tr><th>Objeção</th><th>Resposta</th></tr>
@@ -834,12 +881,21 @@
       <tr><td>"Preciso falar com meu marido/esposa."</td><td>"Com certeza! Você quer que eu te mande o resumo das opções de horário por aqui para facilitar?"</td></tr>
     </table>
 
-    <h3>Retorno Ativo</h3>
-    <p>Se um tutor demonstrou interesse mas não agendou, faça retorno ativo em até 24h:</p>
+    <h3>Follow-up Ativo — Leads que Não Agendaram</h3>
+    <p>Se o tutor perguntou preço ou demonstrou interesse mas não agendou, faça retorno ativo em até 24h:</p>
     <div class="script-box">
-      "Oi, <em>[nome]</em>! Passei pra falar que ainda tem horário disponível <em>[dia]</em> às <em>[hora]</em> para o <em>[nome do pet]</em>. Posso reservar para você?"
+      <span class="speaker">Primeiro contato (24h após o interesse):</span><br><br>
+      "Oi <em>[nome]</em>! 🐾 Passei pra avisar que ainda temos horário disponível <em>[dia]</em> às <em>[hora]</em> para o <em>[nome do pet]</em>. Posso reservar para você?"
     </div>
-
+    <p>Se não houver resposta em 48h, fazer um segundo contato:</p>
+    <div class="script-box">
+      <span class="speaker">Segundo contato (48h sem resposta):</span><br><br>
+      "Oi <em>[nome]</em>, tudo bem com o <em>[pet]</em>? Caso precise de atendimento, é só chamar aqui. Estamos com horários disponíveis essa semana!"
+    </div>
+    <div class="highlight red">
+      <div class="highlight-title">Regra de Ouro do Follow-up</div>
+      <p><strong>Nunca fazer mais de 2 contatos sem resposta.</strong> Após o segundo contato sem retorno, registrar no histórico e aguardar o tutor entrar em contato. Respeitar o espaço é parte da relação de confiança.</p>
+    </div>
     <a href="#topo" class="back-top">↑ Voltar ao topo</a>
   </div>
 </div>
@@ -848,15 +904,18 @@
 <div class="module container" id="m7">
   <div class="module-header yellow">
     <div class="module-num">7</div>
-    <div>
+    <div class="module-header-text">
       <h2>Comunicação Recepção–Veterinária</h2>
       <p>Como funciona o alinhamento interno para não deixar nada cair</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 3 min</span>
+      <button class="btn-done" data-mod="m7">✓ Concluído</button>
     </div>
   </div>
   <div class="module-body">
     <h3>Por que isso é crítico</h3>
     <p>Grande parte dos problemas que chegam ao tutor começam numa falha de comunicação interna. A Dra. Mariana não consegue gerenciar o lado clínico e ao mesmo tempo acompanhar o WhatsApp, resultados e recados. <strong>É função da recepção ser o elo entre as duas pontas.</strong></p>
-
     <h3>Informações que a Recepção Deve Passar para a Veterinária</h3>
     <ul>
       <li>Quando um exame chegar: nome do paciente, exame, data da coleta e número de contato do tutor</li>
@@ -864,7 +923,6 @@
       <li>Cancelamentos e remarcações que impactem a agenda do dia</li>
       <li>Tutores insatisfeitos ou situações sensíveis que precisam de atenção especial</li>
     </ul>
-
     <h3>Informações que a Veterinária Deve Passar para a Recepção</h3>
     <ul>
       <li>Orientações pós-consulta para comunicar ao tutor</li>
@@ -872,19 +930,16 @@
       <li>Se o resultado de exame exige intervenção imediata ou só informação</li>
       <li>Quando ela estiver atrasada mais de 15 minutos: informar recepção para avisar os próximos tutores</li>
     </ul>
-
     <div class="highlight teal">
       <div class="highlight-title">Regra de Passagem de Informação</div>
       <p>Toda informação que precisa ser repassada ao tutor deve ser confirmada com a Dra. Mariana antes. A recepção não interpreta resultados de exame nem repassa orientações clínicas por conta própria.</p>
     </div>
-
     <h3>Como Comunicar Internamente</h3>
     <ul>
       <li>Para urgências: falar diretamente, de viva voz ou mensagem imediata no WhatsApp interno</li>
       <li>Para informações do dia: usar o grupo interno da clínica</li>
       <li>Nunca deixar recado verbal sem confirmação — sempre confirmar que foi recebido</li>
     </ul>
-
     <a href="#topo" class="back-top">↑ Voltar ao topo</a>
   </div>
 </div>
@@ -893,70 +948,35 @@
 <div class="module container" id="m8">
   <div class="module-header">
     <div class="module-num">8</div>
-    <div>
+    <div class="module-header-text">
       <h2>Gestão de Exames</h2>
       <p>Da solicitação ao resultado: protocolo completo para nada se perder</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 4 min</span>
+      <button class="btn-done" data-mod="m8">✓ Concluído</button>
     </div>
   </div>
   <div class="module-body">
     <h3>Fluxo Completo de Exames</h3>
     <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>Solicitação pela Veterinária</h4>
-          <p>A Dra. Mariana indica o exame durante a consulta. A recepção (Emily) registra: nome do paciente, exame solicitado, prazo estimado de resultado e contato do tutor.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h4>Coleta ou Envio</h4>
-          <p>Confirmar se a coleta é feita na clínica ou se o tutor leva o material ao laboratório. Orientar o tutor sobre preparo (jejum, etc.) se necessário.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>Acompanhamento</h4>
-          <p>Se o prazo vencer e o resultado não chegar: Emily entra em contato com o laboratório. Não espera o tutor perguntar.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-content">
-          <h4>Recebimento do Resultado</h4>
-          <p>Ao receber: <strong>imediatamente</strong> encaminhar para a Dra. Mariana. Registrar hora e data de recebimento.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <div class="step-content">
-          <h4>Avaliação pela Veterinária</h4>
-          <p>A Dra. Mariana avalia o resultado e indica o que comunicar ao tutor: apenas informar que está pronto, orientar, ou chamar para retorno.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">6</div>
-        <div class="step-content">
-          <h4>Comunicação ao Tutor</h4>
-          <p>Com base na orientação da Dra. Mariana, Emily (ou Gabi) entra em contato com o tutor. Nunca comunicar resultado sem antes ter a análise da veterinária.</p>
-        </div>
-      </div>
+      <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Solicitação pela Veterinária</h4><p>A Dra. Mariana indica o exame durante a consulta. A recepção (Emily) registra: nome do paciente, exame solicitado, prazo estimado de resultado e contato do tutor.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Coleta ou Envio</h4><p>Confirmar se a coleta é feita na clínica ou se o tutor leva o material ao laboratório. Orientar o tutor sobre preparo (jejum, etc.) se necessário.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Acompanhamento</h4><p>Se o prazo vencer e o resultado não chegar: Emily entra em contato com o laboratório. Não espera o tutor perguntar.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Recebimento do Resultado</h4><p>Ao receber: <strong>imediatamente</strong> encaminhar para a Dra. Mariana. Registrar hora e data de recebimento.</p></div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Avaliação pela Veterinária</h4><p>A Dra. Mariana avalia o resultado e indica o que comunicar ao tutor: apenas informar que está pronto, orientar, ou chamar para retorno.</p></div></div>
+      <div class="step"><div class="step-num">6</div><div class="step-content"><h4>Comunicação ao Tutor</h4><p>Com base na orientação da Dra. Mariana, Emily (ou Gabi) entra em contato com o tutor. Nunca comunicar resultado sem antes ter a análise da veterinária.</p></div></div>
     </div>
-
     <div class="highlight red">
       <div class="highlight-title">Alerta Crítico</div>
       <p><strong>O resultado de exame nunca pode ficar parado na recepção sem ser avaliado pela Dra. Mariana.</strong> Resultado chegou → passa para a veterinária imediatamente, mesmo que ela esteja em atendimento (mensagem no WhatsApp interno). O tutor não pode esperar dias para saber que o resultado está disponível.</p>
     </div>
-
     <h3>Registro e Controle</h3>
     <ul>
       <li>Manter uma lista (planilha ou anotação) de exames solicitados com data esperada de retorno</li>
       <li>Checar a lista diariamente: exames com prazo vencido → cobrar o laboratório</li>
       <li>Ao comunicar ao tutor, registrar data/hora e o que foi comunicado</li>
     </ul>
-
     <a href="#topo" class="back-top">↑ Voltar ao topo</a>
   </div>
 </div>
@@ -965,9 +985,13 @@
 <div class="module container" id="m9">
   <div class="module-header yellow">
     <div class="module-num">9</div>
-    <div>
+    <div class="module-header-text">
       <h2>Cobrança, Caixa e Nota Fiscal</h2>
       <p>Como cobrar sem constrangimento e fechar o caixa corretamente</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 4 min</span>
+      <button class="btn-done" data-mod="m9">✓ Concluído</button>
     </div>
   </div>
   <div class="module-body">
@@ -978,14 +1002,12 @@
       <li>Ao fechar, confirme o valor, as formas de pagamento aceitas e pergunte como prefere pagar</li>
       <li>Nunca deixe o tutor esperando o fechamento enquanto está de pé com o animal</li>
     </ul>
-
     <h3>Formas de Pagamento</h3>
     <ul>
       <li>Pix (confirmação imediata na tela)</li>
       <li>Cartão de débito e crédito (maquininha)</li>
       <li>Dinheiro (confirme o troco antes de começar)</li>
     </ul>
-
     <h3>Nota Fiscal</h3>
     <ul>
       <li>Emitir para todos os tutores que solicitarem (é direito do consumidor)</li>
@@ -993,37 +1015,16 @@
       <li>Dados necessários: CPF ou CNPJ do titular, serviço prestado, valor</li>
       <li>Se não souber emitir em alguma situação específica: não tente — peça ajuda antes de errar</li>
     </ul>
-
     <h3>Cobranças em Aberto</h3>
     <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>Identificar</h4>
-          <p>Verificar diariamente se há atendimentos realizados sem pagamento registrado.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h4>Primeiro contato (D+1)</h4>
-          <p>Mensagem gentil: "Oi [nome]! Vimos que ficou pendente o pagamento da consulta de ontem. Quando for mais conveniente, pode fazer pelo Pix [chave] ou se preferir pode vir aqui na clínica."</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>Segundo contato (D+3)</h4>
-          <p>Se não houver resposta: novo contato por WhatsApp ou telefone. Tom cordial mas firme.</p>
-        </div>
-      </div>
+      <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Identificar</h4><p>Verificar diariamente se há atendimentos realizados sem pagamento registrado.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Primeiro contato (D+1)</h4><p>Mensagem gentil: "Oi [nome]! Vimos que ficou pendente o pagamento da consulta de ontem. Quando for mais conveniente, pode fazer pelo Pix [chave] ou se preferir pode vir aqui na clínica."</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Segundo contato (D+3)</h4><p>Se não houver resposta: novo contato por WhatsApp ou telefone. Tom cordial mas firme.</p></div></div>
     </div>
-
     <div class="highlight green">
       <div class="highlight-title">Dica de Abordagem</div>
       <p>Na cobrança, nunca use termos como "dívida" ou "inadimplência". Prefira: "o pagamento ficou pendente" ou "ainda não registramos o pagamento". Mantém o tom respeitoso e facilita a resolução.</p>
     </div>
-
     <a href="#topo" class="back-top">↑ Voltar ao topo</a>
   </div>
 </div>
@@ -1032,9 +1033,13 @@
 <div class="module container" id="m10">
   <div class="module-header">
     <div class="module-num">10</div>
-    <div>
+    <div class="module-header-text">
       <h2>Erros Comuns — O que Não Repetir</h2>
       <p>Os erros mais frequentes em recepções veterinárias e como evitá-los</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 4 min</span>
+      <button class="btn-done" data-mod="m10">✓ Concluído</button>
     </div>
   </div>
   <div class="module-body">
@@ -1051,18 +1056,15 @@
       <li><strong>Não anotar recados para a veterinária.</strong> Informação se perde e o tutor precisa repetir.</li>
       <li><strong>Caixa com divergência sem aviso.</strong> Problema financeiro descoberto depois é muito mais difícil de resolver.</li>
     </ol>
-
     <h3>Situações Difíceis — Como Agir</h3>
     <div class="highlight orange">
       <div class="highlight-title">Tutor insatisfeito ou irritado</div>
       <p>Nunca rebater na defensiva. Ouça com atenção, valide o sentimento ("Entendo, com certeza é frustrante") e ofereça solução concreta. Se não souber resolver na hora, diga: "Deixa eu verificar para te dar uma resposta certa" — e faça isso em seguida. Nunca prometa o que não pode cumprir.</p>
     </div>
-
     <div class="highlight red">
       <div class="highlight-title">Animal em estado grave ou óbito</div>
       <p>Esse é o momento mais delicado. Nunca anunciar notícias graves de maneira fria ou por mensagem. Sempre pedir para a Dra. Mariana comunicar pessoalmente. A recepção apoia logisticamente (sala reservada, água, papel) mas a notícia é da médica.</p>
     </div>
-
     <a href="#topo" class="back-top">↑ Voltar ao topo</a>
   </div>
 </div>
@@ -1071,67 +1073,45 @@
 <div class="module container" id="m11">
   <div class="module-header yellow">
     <div class="module-num">11</div>
-    <div>
+    <div class="module-header-text">
       <h2>Scripts Prontos para o Dia a Dia</h2>
       <p>Modelos testados para as situações mais frequentes</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 6 min</span>
+      <button class="btn-done" data-mod="m11">✓ Concluído</button>
     </div>
   </div>
   <div class="module-body">
     <h3>Abertura de Conversa</h3>
-    <div class="script-box">
-      "Olá! Tudo bem? 🐾 Aqui é a <em>[nome]</em>, da Bicho da Praia. Como posso te ajudar?"
-    </div>
-
+    <div class="script-box">"Olá! Tudo bem? 🐾 Aqui é a <em>[nome]</em>, da Bicho da Praia. Como posso te ajudar?"</div>
     <h3>Agendamento (cliente novo)</h3>
-    <div class="script-box">
-      "Que ótimo! Vou precisar de algumas informações para agendar.<br>
-      Qual o nome do seu pet e de que espécie ele é?<br>
-      E qual seria o motivo da consulta?<br>
-      Temos disponibilidade <em>[dias/horários]</em>. Qual seria melhor pra você?"
-    </div>
-
+    <div class="script-box">"Que ótimo! Vou precisar de algumas informações para agendar.<br>Qual o nome do seu pet e de que espécie ele é?<br>E qual seria o motivo da consulta?<br>Temos disponibilidade <em>[dias/horários]</em>. Qual seria melhor pra você?"</div>
     <h3>Confirmação de Consulta (D-1)</h3>
-    <div class="script-box">
-      "Oi, <em>[nome]</em>! Passando para confirmar a consulta de <em>[animal]</em> amanhã, <em>[dia]</em> às <em>[horário]</em> aqui na Bicho da Praia. Tudo certo por aí? Tem alguma dúvida antes de vir?"
-    </div>
-
-    <h3>Recepção na chegada</h3>
-    <div class="script-box">
-      "Olá, <em>[nome do tutor]</em>! Que bom que veio. E o <em>[nome do animal]</em>, tudo bem com ele?<br>
-      Vou confirmar seu cadastro rapidinho. Pode aguardar aqui que a Dra. Mariana não demora."
-    </div>
-
+    <div class="script-box">"Oi, <em>[nome]</em>! Passando para confirmar a consulta de <em>[animal]</em> amanhã, <em>[dia]</em> às <em>[horário]</em> aqui na Bicho da Praia. Tudo certo por aí? Tem alguma dúvida antes de vir?"</div>
+    <h3>Recepção na Chegada</h3>
+    <div class="script-box">"Olá, <em>[nome do tutor]</em>! Que bom que veio. E o <em>[nome do animal]</em>, tudo bem com ele?<br>Vou confirmar seu cadastro rapidinho. Pode aguardar aqui que a Dra. Mariana não demora."</div>
     <h3>Comunicando Atraso</h3>
-    <div class="script-box">
-      "Olá, <em>[nome]</em>! A Dra. Mariana está finalizando um atendimento e deve demorar mais uns <em>[X]</em> minutinhos. Peço desculpas pela espera! Quer uma água enquanto aguarda?"
-    </div>
-
+    <div class="script-box">"Olá, <em>[nome]</em>! A Dra. Mariana está finalizando um atendimento e deve demorar mais uns <em>[X]</em> minutinhos. Peço desculpas pela espera! Quer uma água enquanto aguarda?"</div>
     <h3>Resultado de Exame Disponível</h3>
-    <div class="script-box">
-      "Oi, <em>[nome]</em>! O resultado do exame do <em>[animal]</em> chegou. A Dra. Mariana já conferiu e <em>[inserir orientação: está dentro do normal / pede para você ligar / sugere retorno]</em>. Posso te mandar o resultado aqui ou prefere passar aqui para conversar?"
-    </div>
-
+    <div class="script-box">"Oi, <em>[nome]</em>! O resultado do exame do <em>[animal]</em> chegou. A Dra. Mariana já conferiu e <em>[inserir orientação: está dentro do normal / pede para você ligar / sugere retorno]</em>. Posso te mandar o resultado aqui ou prefere passar aqui para conversar?"</div>
     <h3>Fechamento do Atendimento</h3>
-    <div class="script-box">
-      "Tudo certo! O total ficou <em>[valor]</em>. Você prefere pagar no Pix, cartão ou dinheiro?<br><br>
-      [após pagamento]<br><br>
-      Obrigada! Qualquer dúvida sobre o <em>[animal]</em>, pode nos chamar aqui no WhatsApp. Até a próxima! 🐾"
-    </div>
-
+    <div class="script-box">"Tudo certo! O total ficou <em>[valor]</em>. Você prefere pagar no Pix, cartão ou dinheiro?<br><br>[após pagamento]<br><br>Obrigada! Qualquer dúvida sobre o <em>[animal]</em>, pode nos chamar aqui no WhatsApp. Até a próxima! 🐾"</div>
     <h3>Pós-Consulta com Retorno Indicado</h3>
-    <div class="script-box">
-      "Oi, <em>[nome]</em>! A Dra. Mariana indicou um retorno para o <em>[animal]</em> em <em>[prazo]</em>. Você quer já deixar agendado? Tenho horários disponíveis em <em>[opções]</em>."
-    </div>
-
+    <div class="script-box">"Oi, <em>[nome]</em>! A Dra. Mariana indicou um retorno para o <em>[animal]</em> em <em>[prazo]</em>. Você quer já deixar agendado? Tenho horários disponíveis em <em>[opções]</em>."</div>
     <h3>Cobrança em Aberto (D+1)</h3>
-    <div class="script-box">
-      "Oi, <em>[nome]</em>! Tudo bem? Notei que o pagamento da consulta de <em>[animal]</em> ainda está pendente. Quando for mais conveniente, pode fazer pelo Pix <em>[chave]</em> ou se precisar de outra forma de pagamento, me avisa! Obrigada."
-    </div>
-
+    <div class="script-box">"Oi, <em>[nome]</em>! Tudo bem? Notei que o pagamento da consulta de <em>[animal]</em> ainda está pendente. Quando for mais conveniente, pode fazer pelo Pix <em>[chave]</em> ou se precisar de outra forma de pagamento, me avisa! Obrigada."</div>
     <h3>Cancelamento Recebido</h3>
-    <div class="script-box">
-      "Tudo bem, <em>[nome]</em>! Obrigada por avisar. Cancelei o horário. Quando quiser remarcar, é só falar aqui que verifico os horários disponíveis. Cuida bem do <em>[animal]</em>! 🐾"
-    </div>
+    <div class="script-box">"Tudo bem, <em>[nome]</em>! Obrigada por avisar. Cancelei o horário. Quando quiser remarcar, é só falar aqui que verifico os horários disponíveis. Cuida bem do <em>[animal]</em>! 🐾"</div>
+
+    <h3>Reativação de Cliente Inativo (mais de 60 dias)</h3>
+    <div class="script-box">"Oi <em>[nome]</em>! Tudo bem com o <em>[pet]</em>? 🐾 Faz um tempinho que não te vemos por aqui. A Dra. Mariana indicou que seria bom um check-up de rotina para essa época do ano. Temos horários essa semana — quer que eu verifique o melhor dia pra você?"</div>
+
+    <h3>Lembrete de Vacina / Vermífugo</h3>
+    <div class="script-box">"Oi <em>[nome]</em>! Passando pra lembrar que o <em>[pet]</em> tem vacina/vermífugo com vencimento em <em>[data]</em>. Quer já agendar? Tenho horários disponíveis em <em>[opção 1]</em> e <em>[opção 2]</em>."</div>
+
+    <h3>Convite para Retorno Indicado pela Dra.</h3>
+    <div class="script-box">"Oi <em>[nome]</em>! A Dra. Mariana deixou anotado que o <em>[pet]</em> deve ter um retorno em <em>[prazo]</em>. Já temos <em>[data]</em> disponível — posso reservar para vocês?"</div>
 
     <a href="#topo" class="back-top">↑ Voltar ao topo</a>
   </div>
@@ -1141,9 +1121,13 @@
 <div class="module container" id="m12">
   <div class="module-header">
     <div class="module-num">12</div>
-    <div>
+    <div class="module-header-text">
       <h2>Checklists Diários</h2>
       <p>O que verificar e garantir em cada turno</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 4 min</span>
+      <button class="btn-done" data-mod="m12">✓ Concluído</button>
     </div>
   </div>
   <div class="module-body">
@@ -1158,7 +1142,6 @@
       <li>Estoque de materiais básicos da recepção (canetas, papel, etc.)</li>
       <li>Sala de espera organizada: água disponível</li>
     </ul>
-
     <h3>Checklist de Meio de Turno (Gabi / Emily)</h3>
     <ul class="checklist">
       <li>WhatsApp: nenhuma conversa sem resposta há mais de 15 minutos</li>
@@ -1167,7 +1150,6 @@
       <li>Caixa conferido com pagamentos do turno</li>
       <li>Fichas dos pacientes do dia atualizadas</li>
     </ul>
-
     <h3>Checklist de Fechamento (Gabi / Carol)</h3>
     <ul class="checklist">
       <li>Caixa fechado e conferido com os registros do dia</li>
@@ -1179,7 +1161,6 @@
       <li>Recepção organizada para o próximo turno</li>
       <li>Internados com registro atualizado (Carol)</li>
     </ul>
-
     <h3>Checklist de Estoque Crítico (Vitória — semanal)</h3>
     <ul class="checklist">
       <li>Verificar itens de estoque crítico: abaixo do mínimo?</li>
@@ -1187,7 +1168,13 @@
       <li>Comunicar lista à responsável pela compra</li>
       <li>Confirmar recebimento de pedidos anteriores</li>
     </ul>
-
+    <h3>Checklist Semanal Comercial (Gabi — toda segunda-feira)</h3>
+    <ul class="checklist">
+      <li>Leads da semana passada que não agendaram: fazer follow-up ativo</li>
+      <li>Clientes com retorno indicado há mais de 7 dias sem reagendar: enviar lembrete</li>
+      <li>Clientes inativos há mais de 60 dias: listar e enviar reativação (máx. 5 por semana)</li>
+      <li>Vacinas/vermífugos vencendo nos próximos 30 dias: listar e enviar lembretes</li>
+    </ul>
     <a href="#topo" class="back-top">↑ Voltar ao topo</a>
   </div>
 </div>
@@ -1196,16 +1183,19 @@
 <div class="module container" id="m13">
   <div class="module-header yellow">
     <div class="module-num">13</div>
-    <div>
+    <div class="module-header-text">
       <h2>Cultura, Postura e Trabalho em Equipe</h2>
       <p>O que nos faz uma equipe de verdade</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 3 min</span>
+      <button class="btn-done" data-mod="m13">✓ Concluído</button>
     </div>
   </div>
   <div class="module-body">
     <div class="mantra">
       <blockquote>"Somos tão boas quanto nossa colaboração. O tutor nunca enxerga uma pessoa — ele enxerga a clínica."</blockquote>
     </div>
-
     <h3>Comunicação Interna</h3>
     <ul>
       <li><strong>Fale primeiro, assuma depois.</strong> Se você vai assumir uma tarefa que normalmente é de outra pessoa, avise.</li>
@@ -1213,7 +1203,6 @@
       <li><strong>Dúvida? Pergunte antes de agir.</strong> Um minuto de confirmação evita horas de correção.</li>
       <li><strong>Feedbacks são bem-vindos.</strong> Se você viu algo que pode melhorar, fale. Com respeito e foco na solução.</li>
     </ul>
-
     <h3>Postura no Ambiente de Trabalho</h3>
     <ul>
       <li>Celular pessoal: apenas nos intervalos designados. Tutor vendo a equipe no celular gera má impressão.</li>
@@ -1221,7 +1210,6 @@
       <li>Discussões internas: jamais na frente de tutor ou animal. Sempre reservar para espaço privado.</li>
       <li>Apresentação: uniforme ou visual padronizado limpo, cabelo arrumado, nenhum cheiro forte de perfume (animais têm olfato sensível).</li>
     </ul>
-
     <h3>Como Crescer Aqui</h3>
     <p>A equipe que performa bem ganha mais autonomia, participa das decisões e tem acesso a treinamentos. O caminho é simples:</p>
     <ol>
@@ -1230,30 +1218,106 @@
       <li>Colaborar com o crescimento da equipe — ensinar o que sabe</li>
       <li>Propor melhorias, não só apontar problemas</li>
     </ol>
-
     <div class="highlight green">
       <div class="highlight-title">Reconhecimento</div>
       <p>Feedback positivo também faz parte da cultura. Quando alguém fizer algo bem feito — diga. Equipes que se elogiam têm mais energia para continuar evoluindo.</p>
+    </div>
+    <a href="#topo" class="back-top">↑ Voltar ao topo</a>
+  </div>
+</div>
+
+<!-- ===== MÓDULO 15 — Gestão Comercial ===== -->
+<div class="module container" id="m15">
+  <div class="module-header">
+    <div class="module-num">14</div>
+    <div class="module-header-text">
+      <h2>Gestão Comercial da Recepção — Transformar Contato em Receita</h2>
+      <p>A recepção não é só operacional — é o motor comercial da clínica</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 5 min</span>
+      <button class="btn-done" data-mod="m15">✓ Concluído</button>
+    </div>
+  </div>
+  <div class="module-body">
+    <div class="mantra">
+      <blockquote>"Uma recepção que apenas agenda é um serviço. Uma recepção que prospecta, acompanha e reativa é um motor de crescimento."</blockquote>
+    </div>
+
+    <h3>Os 3 Números que a Recepção Precisa Saber Todo Dia</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Consultas agendadas hoje</h4>
+          <p>Quantas consultas foram marcadas? Esse é o número mais direto de produtividade comercial do dia.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Contatos novos no WhatsApp</h4>
+          <p>Quantas pessoas novas entraram em contato? Esse número mostra o volume de oportunidades que chegaram.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Leads em aberto</h4>
+          <p>Quantos contatos demonstraram interesse mas não agendaram? Esses são os leads que precisam de follow-up ativo.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>A Régua de Relacionamento</h3>
+    <table>
+      <tr><th>Situação</th><th>Prazo para Ação</th><th>Ação</th><th>Responsável</th></tr>
+      <tr><td>Lead não agendou</td><td>24h</td><td>Follow-up ativo</td><td>Gabi</td></tr>
+      <tr><td>Consulta realizada sem retorno marcado</td><td>3 dias</td><td>Propor retorno</td><td>Gabi</td></tr>
+      <tr><td>Exame pronto sem comunicação</td><td>Mesmo dia</td><td>Avisar tutor</td><td>Emily</td></tr>
+      <tr><td>Cliente inativo</td><td>60 dias</td><td>Reativação</td><td>Gabi</td></tr>
+      <tr><td>Vacina/vermífugo vencendo</td><td>30 dias antes</td><td>Lembrete</td><td>Gabi</td></tr>
+    </table>
+
+    <h3>Meta Simples para Começar</h3>
+    <div class="highlight green">
+      <div class="highlight-title">Meta Semanal</div>
+      <p><strong>Toda semana: 5 reativações + 100% de follow-up em leads quentes.</strong><br>Isso sozinho pode significar 3 a 5 consultas extras por semana — sem aumentar nem um real em marketing. É puro relacionamento com quem já conhece a clínica.</p>
+    </div>
+
+    <h3>Como Medir na Prática</h3>
+    <ul>
+      <li><strong>Segunda-feira:</strong> Gabi revisa a semana anterior — quantos leads não agendaram, quem precisa de reativação, quais vacinas vencem nos próximos 30 dias.</li>
+      <li><strong>Durante a semana:</strong> registrar todo contato novo e se converteu em consulta ou ficou em aberto.</li>
+      <li><strong>Sexta-feira:</strong> verificar se todos os retornos indicados pela Dra. Mariana foram propostos ao tutor.</li>
+    </ul>
+
+    <div class="highlight teal">
+      <div class="highlight-title">Por que isso importa</div>
+      <p>A maioria das clínicas perde receita não por falta de clientes — mas por não acompanhar os que já demonstraram interesse. Um sistema simples de follow-up e reativação é o diferencial entre uma clínica que depende do acaso e uma que cresce de forma previsível.</p>
     </div>
 
     <a href="#topo" class="back-top">↑ Voltar ao topo</a>
   </div>
 </div>
 
-<!-- ===== MÓDULO 14 ===== -->
+<!-- ===== MÓDULO 14 — Encerramento ===== -->
 <div class="module container" id="m14">
-  <div class="module-header">
-    <div class="module-num">14</div>
-    <div>
+  <div class="module-header yellow">
+    <div class="module-num">15</div>
+    <div class="module-header-text">
       <h2>Encerramento do Treinamento</h2>
       <p>O que levar daqui e o que fazer a partir de agora</p>
+    </div>
+    <div class="module-meta">
+      <span class="read-time">⏱ 3 min</span>
+      <button class="btn-done" data-mod="m14">✓ Concluído</button>
     </div>
   </div>
   <div class="module-body">
     <div class="mantra">
       <blockquote>"Excelência não é fazer coisas extraordinárias. É fazer coisas ordinárias extraordinariamente bem — todos os dias."</blockquote>
     </div>
-
     <h3>Os 7 Compromissos da Equipe Bicho da Praia</h3>
     <ul class="checklist">
       <li>Responder o WhatsApp em até 5 minutos em horário de atendimento</li>
@@ -1264,44 +1328,17 @@
       <li>Manter a agenda organizada e confirmações em dia</li>
       <li>Tratar cada tutor como se fosse a pessoa mais importante do dia — porque é</li>
     </ul>
-
     <h3>Próximos Passos</h3>
     <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>Praticar os scripts</h4>
-          <p>Leia os scripts em voz alta. Adapte para seu jeito de falar — o importante é a estrutura, não decorar palavra por palavra.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h4>Usar os checklists</h4>
-          <p>Nos primeiros 30 dias, imprima ou abra o checklist todo turno. Vire hábito antes de virar automático.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>Identificar seu ponto de melhoria</h4>
-          <p>Qual módulo foi mais desafiador para você? Foque nele primeiro. Um processo bem aprendido por semana muda tudo em um mês.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-content">
-          <h4>Feedbacks constantes</h4>
-          <p>Compartilhe dúvidas, sugestões e o que está funcionando. Este treinamento deve evoluir com a experiência da equipe.</p>
-        </div>
-      </div>
+      <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Praticar os scripts</h4><p>Leia os scripts em voz alta. Adapte para seu jeito de falar — o importante é a estrutura, não decorar palavra por palavra.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Usar os checklists</h4><p>Nos primeiros 30 dias, imprima ou abra o checklist todo turno. Vire hábito antes de virar automático.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Identificar seu ponto de melhoria</h4><p>Qual módulo foi mais desafiador para você? Foque nele primeiro. Um processo bem aprendido por semana muda tudo em um mês.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Feedbacks constantes</h4><p>Compartilhe dúvidas, sugestões e o que está funcionando. Este treinamento deve evoluir com a experiência da equipe.</p></div></div>
     </div>
-
     <div class="highlight teal">
       <div class="highlight-title">Uma última coisa</div>
       <p>Tutores escolhem onde levar seus animais não só pela qualidade técnica — mas por como se sentem. Vocês são a primeira e última impressão que eles têm da Bicho da Praia. <strong>Isso é poder. Use bem.</strong></p>
     </div>
-
     <a href="#topo" class="back-top">↑ Voltar ao topo</a>
   </div>
 </div>
@@ -1312,5 +1349,107 @@
   Treinamento Comercial e Operacional · Uso interno da equipe
 </div>
 
+</div><!-- /main-content -->
+
+<script>
+  const PREFIX = 'bichoDaPraia_';
+
+  // ===== PROGRESS BAR =====
+  const bar = document.getElementById('progress-bar');
+  function updateProgress() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = docHeight > 0 ? (scrollTop / docHeight * 100) + '%' : '0%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+
+  // ===== DONE BUTTONS (localStorage) =====
+  const modules = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15'];
+
+  function applyDoneState(mod) {
+    const done = localStorage.getItem(PREFIX + mod) === '1';
+    const moduleEl = document.getElementById(mod);
+    const btn = moduleEl ? moduleEl.querySelector('.btn-done') : null;
+    const tocItem = document.querySelector(`.toc-item[data-mod="${mod}"]`);
+    const sidebarLink = document.querySelector(`#sidebar-nav a[data-mod="${mod}"]`);
+
+    if (moduleEl) moduleEl.classList.toggle('completed', done);
+    if (btn) btn.classList.toggle('active', done);
+    if (tocItem) tocItem.classList.toggle('toc-done', done);
+    if (sidebarLink) sidebarLink.classList.toggle('done', done);
+  }
+
+  modules.forEach(mod => {
+    applyDoneState(mod);
+    const moduleEl = document.getElementById(mod);
+    const btn = moduleEl ? moduleEl.querySelector('.btn-done') : null;
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const current = localStorage.getItem(PREFIX + mod) === '1';
+        localStorage.setItem(PREFIX + mod, current ? '0' : '1');
+        applyDoneState(mod);
+      });
+    }
+  });
+
+  // ===== SIDEBAR ACTIVE ON SCROLL =====
+  const sidebarLinks = document.querySelectorAll('#sidebar-nav a[data-mod]');
+  function updateActiveLink() {
+    let current = '';
+    modules.forEach(mod => {
+      const el = document.getElementById(mod);
+      if (el && el.getBoundingClientRect().top <= 120) current = mod;
+    });
+    sidebarLinks.forEach(a => {
+      a.classList.toggle('active', a.dataset.mod === current);
+    });
+  }
+  window.addEventListener('scroll', updateActiveLink, { passive: true });
+
+  // ===== SEARCH (TOC + Sidebar) =====
+  function filterToc(query) {
+    const q = query.toLowerCase().trim();
+    document.querySelectorAll('.toc-item').forEach(item => {
+      item.classList.toggle('hidden', q.length > 0 && !item.textContent.toLowerCase().includes(q));
+    });
+  }
+
+  function filterSidebar(query) {
+    const q = query.toLowerCase().trim();
+    document.querySelectorAll('#sidebar-nav li').forEach(li => {
+      const a = li.querySelector('a');
+      li.style.display = (q.length === 0 || a.textContent.toLowerCase().includes(q)) ? '' : 'none';
+    });
+  }
+
+  // Full-page content search with highlight
+  let originalContent = {};
+  function highlightPage(query) {
+    const q = query.trim();
+    modules.forEach(mod => {
+      const body = document.querySelector(`#${mod} .module-body`);
+      if (!body) return;
+      if (!originalContent[mod]) originalContent[mod] = body.innerHTML;
+      if (!q) { body.innerHTML = originalContent[mod]; return; }
+      const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      body.innerHTML = originalContent[mod].replace(re, '<mark class="search-hl">$1</mark>');
+    });
+  }
+
+  const tocInput = document.getElementById('toc-search-input');
+  if (tocInput) {
+    tocInput.addEventListener('input', e => {
+      filterToc(e.target.value);
+      highlightPage(e.target.value);
+    });
+  }
+  const sidebarInput = document.getElementById('sidebar-search-input');
+  if (sidebarInput) {
+    sidebarInput.addEventListener('input', e => {
+      filterSidebar(e.target.value);
+      highlightPage(e.target.value);
+    });
+  }
+</script>
 </body>
 </html>
